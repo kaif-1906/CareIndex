@@ -1,0 +1,50 @@
+[
+  {
+    "label": "real CareIndex dataset",
+    "database": "medical.db",
+    "disease_symptom_links": 321,
+    "term": "itching",
+    "runs": 300,
+    "indexed_lookup": {
+      "median_ms": 0.013,
+      "plan": [
+        "SEARCH s USING COVERING INDEX sqlite_autoindex_SYMPTOM_1 (symptom_name=?)",
+        "SEARCH ds USING INDEX idx_disease_symptom_symptom (symptom_id=?)",
+        "SEARCH d USING INTEGER PRIMARY KEY (rowid=?)"
+      ]
+    },
+    "like_scan": {
+      "median_ms": 0.0497,
+      "plan": [
+        "SCAN ds",
+        "SEARCH s USING INTEGER PRIMARY KEY (rowid=?)",
+        "SEARCH d USING INTEGER PRIMARY KEY (rowid=?)"
+      ]
+    },
+    "speedup": 3.8
+  },
+  {
+    "label": "synthetic, about 1M links",
+    "database": "synthetic.db",
+    "disease_symptom_links": 997946,
+    "term": "itching",
+    "runs": 30,
+    "indexed_lookup": {
+      "median_ms": 0.0393,
+      "plan": [
+        "SEARCH s USING COVERING INDEX sqlite_autoindex_SYMPTOM_1 (symptom_name=?)",
+        "SEARCH ds USING INDEX idx_disease_symptom_symptom (symptom_id=?)",
+        "SEARCH d USING INTEGER PRIMARY KEY (rowid=?)"
+      ]
+    },
+    "like_scan": {
+      "median_ms": 1294.6886,
+      "plan": [
+        "SCAN ds",
+        "SEARCH s USING INTEGER PRIMARY KEY (rowid=?)",
+        "SEARCH d USING INTEGER PRIMARY KEY (rowid=?)"
+      ]
+    },
+    "speedup": 32943.7
+  }
+]
